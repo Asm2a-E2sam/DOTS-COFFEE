@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- custom css file -->
+    <link rel="stylesheet" href="DOTS.css">
+    <!-- css bootstrap -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"  -->
+    <!-- integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <!-- fontawosem -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+     crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <script src="jquery-3.7.0.min.js"></script>
+
+     <link rel="icon" type="image/x-icon" href="imgs/1.jpg">
+
+    <title>Single Product</title>
+
+<style>
+.btn{
+    margin-top: 1rem;
+    display: inline-block;
+    padding: .9rem 3rem;
+    font-size: 3rem;
+    color:var(--bg);
+    background: var(--main-color);
+    cursor: pointer;
+    border-radius: 15px;
+}
+.btn:hover{
+    background:var(--bg);
+    color: var(--main-color);
+
+}
+
+
+.singleProductImg{
+    border-radius: 50%;
+    object-fit: cover;
+    height: 400px;
+    width: 400px;
+}
+.singleProductImg:hover{
+    transform: scale(0.8);
+}
+.singleProductrating{
+color: white;
+
+}
+</style>
+</head>
+<body>
+
+
+        <h1 class="heading"> Our <span>Products</span></h1>
+    
+            <div id="mainproduct">
+    
+                <!-- product from js -->
+            </div>
+    
+
+
+<script>
+        var xhr=new XMLHttpRequest();
+        xhr.open("GET","product.json")
+        xhr.send()
+
+    xhr.addEventListener("load",function(){
+        var data= JSON.parse(xhr.response)
+    // function singleProduct() {
+        var productID= window.location.href.split("?")[1].split("=")[1]
+        console.log(productID);
+
+
+        console.log(data);//array
+        let product_curd =[];
+
+        for(let i =0 ;i <data.length ; i++){
+            if(data[i].id==productID){
+                let title= data[i].title;
+                let ingredients= data[i].ingredients;
+                let price=data[i].price;
+                let rating = data[i].rating.rate;
+                let count = data[i].rating.count;
+                let img=data[i].image;
+                let description=data[i].description;
+                let id=data[i].id;
+                product_curd =
+         ` 
+            <img src=${img} id=${id} class="singleProductImg" alt="..."></div>
+            <div class="singleProductdisc">
+            <h2 class="singleProductTitle">${title}
+            <div class="singleProductrating">
+            
+        <div>
+         <i class="fas fa-star"></i>
+         <span> ${rating}</span>
+         <i class="fas fa-shopping-cart" id="cart-btn"></i>
+         <span> ${count}</span></div>
+            </div>
+            </h2>
+
+            <h1 style="margin-top: 15px; margin-bottom: 5px; color:white; ">description</h1>
+            <p class="singleProductdescription"> ${description}</p>
+            <h1 style="margin-top: 15px; margin-bottom: 5px; color:white; ">ingredients</h1>
+            <p class="singleProductIngr"> ${ingredients}</p>
+            <div class="singleProductbuy">
+            <h2 class="singleProductprice" style="color:white; font-weight: 800;">Price : $${price}</h2>
+            <a  class="btn btn-primary">
+            <i href="cart.html" onclick="sendID_Icon(${id},this)" class="fa-solid fa-cart-shopping " ></i></a></div>
+
+            </div>
+            </div>
+            </div>`
+            }
+        }
+
+        let main =document.getElementById('mainproduct');
+        main.innerHTML=product_curd;
+})
+
+
+let cart_arr = [];
+let items;
+function sendID_Icon(id, element) {
+  // alert(cart_arr);
+
+let storage = JSON.parse(localStorage.getItem("userCart"));
+console.log(storage);
+ if(storage.length == 0){
+ 
+    cart_arr.push(id);
+    localStorage.setItem("userCart", JSON.stringify(cart_arr));
+
+     items = JSON.parse(localStorage.getItem("userCart"));
+ 
+} else {
+        cart_arr = storage;
+
+    let res = cart_arr.find((ele) => ele == id);//CONDITION TO NOT REPEAT PRODUCT ID IN THE CART_ARR
+
+      if (res === undefined) {//لو ال id م موجود يعني م متضاف قبل كده
+      cart_arr.push(id);
+      localStorage.setItem("userCart", JSON.stringify(cart_arr));
+      items = JSON.parse(localStorage.getItem("userCart"));
+       
+    //   window.open('cart.html')
+        //  location.reload('cart.html')
+
+
+        // var url = "cart.html?id=" + target.id
+    open('cart.html', "_blank")
+      }else{
+      alert('YOU HAVE CHOSEN THIS PRODUCT ONCE,IF U WANT MORE ONE PLSES SELECT FROM YOUR CART')
+           }
+  }
+
+  $(".fa-cart-shopping").html(cart_arr.length);
+
+  /////////////
+}
+
+
+$(".btn btn-primary").on("click ","i",function(){
+  // alert("mona")
+  window.open('cart.html')
+
+
+})
+
+
+</script>
+<!-- <script src="DOTS.js"></script> -->
+
+</body>
+</html>

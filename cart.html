@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- custom css file -->
+    <link rel="stylesheet" href="DOTS.css" />
+    <!-- fontawosem -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- css -->
+    <link rel="stylesheet" href="DOTS.css" />
+    <!-- icon tab -->
+    <link rel="icon" type="image/x-icon" href="imgs/1.jpg" />
+
+    <title>Shopping cart</title>
+    <style>
+      :root {
+        --main-color: #f5ddc0;
+        --black: #13131a;
+        --bg: #0c0905;
+        --border: 0.1rem solid rgba(255, 255, 255, 0.3);
+      }
+
+    
+      .sec_cart {
+        margin: 140px;
+        width: 7500px;
+        
+      }
+
+      .cart {
+        position: relative;
+        width: 800px;
+        min-height: 100vh;
+        padding: 20px;
+        margin: 80px;
+        background: var(--main-color);
+        box-shadow: -2px 0 4px hsl(0 4% 15% / 10%);
+      }
+
+      /* مش شغاله ف js */
+      /* .cart:active{
+            right: 0;
+        } */
+      .cart_title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-top: 2rem;
+        color: #492d0a;
+      }
+
+      .car_box {
+        display: grid;
+        /* width: 700px; */
+        grid-template-columns: 32% 20% 18%;
+        align-items: center;
+        /* gap: 0rem; */
+        margin-top: 1rem;
+      }
+
+      .card-img {
+        width: 150px;
+        height: 150px;
+        object-fit:cover;
+        border-radius: 50%;
+        padding: 10px;
+      }
+      .card-img:hover{
+       transform: scale(1.2);
+      }
+
+
+      .detail_box {
+        display: grid;
+        /* row-gap: 0.5rem; */
+      }
+
+      .cart_product_title {
+        font-size: 2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #96601f;
+      }
+      .cart_product_title:hover{
+        transform: scale(1.2); 
+      }
+
+
+      .cart_price {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--bg);
+      }
+
+      .cart_quantity {
+        border: 1px solid var(--bg);
+        outline-color: rgb(139, 82, 43);
+        width: 3rem;
+        height: 2rem;
+        text-align: center;
+        font-size: 1rem;
+        transform: scale(1.2);
+        /* margin-right: 10px; */
+      }
+
+      .cart-remove {
+        /* border: 1px solid red; */
+        font-size: 2rem;
+        color: red;
+        cursor: pointer;
+        margin-left: 100px;
+      }
+
+      .total {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--bg);
+        font-size: 1.5rem;
+      }
+
+      .total_title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--bg);
+      }
+
+      .total_price {
+        /* margin-left: 1rem; */
+        color: var(--bg);
+        font-weight: 500;
+        font-size: 2rem;
+      }
+
+      .btn-buy {
+        display: flex;
+        margin: 1.5rem auto 0 auto;
+        padding: 12px 20px;
+        border: none;
+        background: var(--bg);
+        color: var(--main-color);
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .btn-buy:hover {
+        background: white;
+        color: var(--bg);
+        transform: scale(1.2);
+      }
+
+      #close_cart {
+        margin-right: 30px;
+        font-size: 2rem;
+        font-weight: 500;
+        cursor: pointer;
+        color: red;
+      } 
+    </style>
+  </head>
+
+  <body id="cartbody" onload="getCartItems()">
+    <header class="header">
+      <a href="#" class="logo">
+        <img id="logo" src="imgs/1.jpg" alt="" />
+      </a>
+
+      <h1 class="heading">SHOPPING <span>CART</span></h1>
+
+      <div class="icons">
+        <div class="fas fa-shopping-cart" id="cart-btn"></div>
+      </div>
+    </header>
+
+    <!-- cart -->
+
+    <div class="sec_cart">
+      <div class="cart">
+        <h2 class="cart_title">MY CART</h2>
+        <!-- <div class="icons"> -->
+          <div class="fas fa-shopping-cart" id="cart-btn"></div>
+        <!-- </div> -->
+        <div class="cart_content"></div>
+
+
+        <div class="total">
+        
+          <a id="close_cart"  onclick="deleteallFromLocalStorage(id)">    
+             <i class="fa-solid fa-trash cart-remove" ></i>
+            Delet All  </a>
+
+          <div class="total_title">TOTAL:</div>
+          <div class="total_price"></div>
+        </div>
+        <button type="button" class="btn-buy">Buy Now</button>
+        <!-- <i class="fa-solid fa-x" id="close_cart"  onclick="deleteallFromLocalStorage(id)"></i> -->
+        
+      </div>
+      <!-- buy button -->
+      <!-- cart close -->
+    </div>
+
+    
+
+
+
+    <script>
+
+      let products; // make variable to save the selected data into
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "product.json");
+      xhr.send();
+
+      let chosen_products = [];
+
+      xhr.addEventListener("load", function () {
+        var data = JSON.parse(xhr.response);
+        products = data;
+
+        // console.log(data);  =  console.log(products);
+        // let items = localStorage.getItem("userCart")//as string
+        let items = JSON.parse(localStorage.getItem("userCart"));//as array
+
+        //products => from api
+        //items => selected prod from user as array
+        //products.id == items[i]عشان اجيب داتا البرودكت بتاعت اليوزر
+        for (let i = 0; i < items.length; i++) {
+          chosen_products.push(
+            products.find((products) => products.id == items[i])
+          );
+        }
+
+        console.log(items);//as array of selected id
+        console.log(chosen_products);//as array of objects of selected id
+        // addCartItemsDom(chosen_products);
+        console.log(data); //array of all products from api
+
+
+        let product_cart=[];
+        let totalPrice = 0;
+
+        for (let i = 0; i < chosen_products.length; i++) {
+          let ingredients = chosen_products[i].ingredients;
+          let title = chosen_products[i].title;
+          let price = chosen_products[i].price;
+          let img = chosen_products[i].image;
+          let description = chosen_products[i].description;
+          let rating = data[i].rating.rate;
+          let count = data[i].rating.count;
+          let id = chosen_products[i].id;
+          totalPrice += chosen_products[i].price;
+          product_cart += `
+        <div class="car_box">
+            <img src=${img}  class="card-img" alt="...">
+                <div class="detail_box">
+                  <div class="cart_product_title">${title}</div>
+
+                    <div class="cart_price">$${price}
+                    </div>
+                    <input type="number" value="1" class="cart_quantity">
+      
+                </div>
+          
+          <div>
+         <i class="fas fa-star"></i>
+         <span> ${rating}</span>
+         <i class="fas fa-shopping-cart" id="cart-btn"></i>
+         <span> ${count}</span>
+         <i   onclick="deleteItemFromLocalStorage(${id})"    class="fa-solid fa-trash cart-remove"    id="remove_pro" ></i>
+
+         </div>
+
+          
+      </div>`
+        }
+
+        var section = document.getElementsByClassName("cart_content")[0];
+        section.innerHTML = product_cart;
+        // console.log(product_cart);
+
+        var TotalPrice = document.getElementsByClassName("total_price")[0];
+        TotalPrice.innerHTML = totalPrice + " $";
+      });
+
+  // Delete  all Product
+  function deleteallFromLocalStorage(id) {
+        // localStorage.clear(id);//or using removeItem
+        localStorage.removeItem('userCart');
+
+        location.reload();
+        // $(.)
+      }
+
+
+
+
+  //delet item product
+    let cart =JSON.parse(localStorage.getItem("userCart"));
+       console.log(cart);
+  function deleteItemFromLocalStorage(id){
+     let temp = cart.filter( pro => pro != id);
+     localStorage.setItem("userCart", JSON.stringify(temp));
+     location.reload();
+
+  }
+ 
+ //get all chosen product 
+function getCartItems() {
+        let chosen_products = [];
+        // alert("MS")
+        let items = JSON.parse(localStorage.getItem("userCart"));
+        for (let i = 0; i < items.length; i++) {
+          chosen_products.push(
+            products.find((products) => products.id == items[i])
+          );
+        }
+        console.log(chosen_products);
+        addCartItemsDom(chosen_products);
+      }
+    </script>
+  </body>
+</html>
