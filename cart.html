@@ -29,17 +29,18 @@
 
     
       .sec_cart {
-        margin: 140px;
-        width: 7500px;
-        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
       }
 
       .cart {
         position: relative;
+        top:80px;
         width: 800px;
         min-height: 100vh;
         padding: 20px;
-        margin: 80px;
         background: var(--main-color);
         box-shadow: -2px 0 4px hsl(0 4% 15% / 10%);
       }
@@ -158,12 +159,27 @@
       }
 
       #close_cart {
-        margin-right: 30px;
+        margin-left: 30px;
         font-size: 2rem;
         font-weight: 500;
         cursor: pointer;
         color: red;
       } 
+      button a{
+        font-size: 18px;
+        color:white;
+      }
+      button a:hover{
+        color:black;
+      }
+      .fas{
+        font-size: 16px;
+        margin: 0px 5px;
+      }
+      #_icons{
+        display: flex!important;
+        align-items: center;
+      }
     </style>
   </head>
 
@@ -186,21 +202,21 @@
       <div class="cart">
         <h2 class="cart_title">MY CART</h2>
         <!-- <div class="icons"> -->
-          <div class="fas fa-shopping-cart" id="cart-btn"></div>
+          <!-- <div class="fas fa-shopping-cart" id="cart-btn"></div> -->
         <!-- </div> -->
         <div class="cart_content"></div>
 
 
         <div class="total">
         
-          <a id="close_cart"  onclick="deleteallFromLocalStorage(id)">    
+          <a id="close_cart"  onclick="deleteallFromLocalStorage(id)" style="margin: 0 30px;">    
              <i class="fa-solid fa-trash cart-remove" ></i>
             Delet All  </a>
 
           <div class="total_title">TOTAL:</div>
           <div class="total_price"></div>
         </div>
-        <button type="button" class="btn-buy">Buy Now</button>
+        <button type="button" class="btn-buy"><a href="payment.html">Buy Now</a></button>
         <!-- <i class="fa-solid fa-x" id="close_cart"  onclick="deleteallFromLocalStorage(id)"></i> -->
         
       </div>
@@ -269,7 +285,7 @@
       
                 </div>
           
-          <div>
+          <div id="_icons">
          <i class="fas fa-star"></i>
          <span> ${rating}</span>
          <i class="fas fa-shopping-cart" id="cart-btn"></i>
