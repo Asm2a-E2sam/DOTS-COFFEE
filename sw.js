@@ -4,7 +4,7 @@ self.addEventListener("install",(event)=>{
     // self.skipWaiting()
     event.waitUntil( 
         caches.open("DOTS-Coffee").then(cache=>{
-           return cache.addAll(["DOTS.html","DOTS.css","DOTS.js","imgs/1.jpg","imgs/2.jpg","imgs/3.jpg","imgs/4.jpg","imgs/5.jpg","imgs/6.jpg","imgs/7.jpg","imgs/8.gif","imgs/9.jpg","imgs/10.jpg","imgs/quote.jpg"])
+           return cache.addAll(["index.html","DOTS.css","DOTS.js","imgs/1.jpg","imgs/2.jpg","imgs/3.jpg","imgs/4.jpg","imgs/5.jpg","imgs/6.jpg","imgs/7.jpg","imgs/8.gif","imgs/9.jpg","imgs/10.jpg","imgs/quote.jpg"])
         }).catch(err=>console.log("cache error",err))
      )
 })

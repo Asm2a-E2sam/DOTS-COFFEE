@@ -11,7 +11,7 @@ document.getElementById("_login").addEventListener("click",function(){
             // console.log("valid user");
             cookie.setCookie("login","true");
             localStorage.setItem("username",username)
-            location.href ="DOTS.html";
+            location.href ="index.html";
     }else{
         cookie.setCookie("login","false");
         alert('Invalid Username or Password if you don\'t have account create it Now.');
