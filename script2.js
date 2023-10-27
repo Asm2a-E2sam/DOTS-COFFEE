@@ -17,6 +17,7 @@ try{
     cookie.deleteCookie("username");
     cookie.deleteCookie("email");
     cookie.deleteCookie("password");
+    cookie.setCookie("login","false");
   })
   
   }
