@@ -21,6 +21,6 @@ try{
   
   }
   catch(e){
-    alert(`Error: ${e}`)
+    console.log(`Error: ${e}`);
 }; 
   
